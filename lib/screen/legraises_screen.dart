@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:workout_tracker/constant/app_color.dart';
+import 'package:workout_tracker/simpan_latihan.dart';
 
 class LegraisesScreen extends StatefulWidget {
   const LegraisesScreen({super.key});
@@ -16,7 +16,7 @@ class _LegraisesScreenState extends State<LegraisesScreen> {
       child: Scaffold(
         backgroundColor: AppColor.hitam1,
         appBar: AppBar(
-          title: Text("PUSH UP"),
+          title: Text("LEG RAISES"),
           backgroundColor: AppColor.cream1,
         ),
         body: Column(
@@ -57,7 +57,7 @@ class _LegraisesScreenState extends State<LegraisesScreen> {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      "Letakkan tangan di lantai, selebar bahu turunkan hingga dada hampir menyentuh lantai, lalu turunkan badan kearah bawah",
+                      "Berbaring telentang dengan kaki lurus dan tangan di samping tubuh.",
                     ),
                     Text("( SEPERTI CONTOH 1 )"),
                   ],
@@ -84,7 +84,7 @@ class _LegraisesScreenState extends State<LegraisesScreen> {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      "Dorong tubuh kembali ke posisi awal dengan menekan telapak tangan ke lantai.",
+                      "Angkat kedua kaki lurus ke atas hingga membentuk sudut 90°. Turunkan perlahan tanpa menyentuh lantai, lalu ulangi.",
                     ),
                     Text("( SEPERTI CONTOH 2 )"),
                   ],
@@ -102,7 +102,7 @@ class _LegraisesScreenState extends State<LegraisesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Ulangi hingga 10x "),
+                    Text("Ulangi minimal 10x "),
                     Text("Jika Sudah berhasil di lakukan simpan latihan"),
                   ],
                 ),
@@ -113,7 +113,15 @@ class _LegraisesScreenState extends State<LegraisesScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton(onPressed: () {}, child: Text("Simpan Latihan")),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SimpanLatihan()),
+                    );
+                  },
+                  child: Text("Simpan Latihan"),
+                ),
               ],
             ),
           ],

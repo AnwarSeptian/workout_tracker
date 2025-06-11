@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 100,
               width: double.infinity,
               child: Image.asset(
@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSpacing: 8,
               crossAxisSpacing: 4,
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
               children: [
                 GestureDetector(

@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Spacer(),
-            Image.asset("assets/images/splashscreen.jpg"),
+            Image.asset("assets/images/banner2.jpg"),
             Text("Work Out"),
             Spacer(),
             SafeArea(child: Text("V 1.0.0")),

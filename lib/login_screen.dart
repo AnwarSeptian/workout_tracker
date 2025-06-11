@@ -1,63 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:workout_tracker/constant/app_color.dart';
+import 'package:workout_tracker/database/db_user.dart';
 import 'package:workout_tracker/home_screen.dart';
+import 'package:workout_tracker/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, this.valueCheck});
-  static const String id = "login_screen";
-  final bool? valueCheck;
-
+  const LoginScreen({super.key});
+  static const String id = "/login_screen";
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-// final passwordController - TextEditingController();
-
 class _LoginScreenState extends State<LoginScreen> {
-  bool _isChecked = false;
-  bool valueCheck = false;
-  @override
-  void initState() {
-    super.initState();
-    valueCheck = widget.valueCheck ?? false;
-  }
-
+  bool isVisibility = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffffffff),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: Form(
+        key: _formKey,
+        child: Stack(children: [buildBackground(), buildLayer()]),
+      ),
+    );
+  }
 
+  SafeArea buildLayer() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 16),
-              buildLogin(),
-              SizedBox(height: 30),
-              buildWelcome(),
-              SizedBox(height: 16),
-              buildSignin(),
-              SizedBox(height: 32),
-              buildEmail(),
-              SizedBox(height: 20),
-              buildFieldemail(),
-              SizedBox(height: 24),
-              buildPassword(),
-              SizedBox(height: 20),
-              buildFieldpassword(),
-              buildForgotpassword(),
-              SizedBox(height: 14),
-              buildButtonlogin(),
-              SizedBox(height: 12),
-              buildSignup(),
-              buildOrsignwith(),
-              SizedBox(height: 16),
-              buildGoogleandfacebook(),
-              SizedBox(height: 16),
-              buildJoinus(),
-              SizedBox(height: 16),
-              buildSyarat(),
+              Text(
+                "Welcome Back",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.cream2,
+                ),
+              ),
+              height(12),
+              Text(
+                "Login to access your account",
+                style: TextStyle(fontSize: 14, color: AppColor.cream2),
+              ),
+              height(24),
+              buildTitle("Email Address"),
+              height(12),
+              buildTextField(
+                hintText: "Enter your email",
+                controller: emailController,
+              ),
+              height(16),
+              buildTitle("Password"),
+              height(12),
+              buildTextField(
+                hintText: "Enter your password",
+                isPassword: true,
+                controller: passwordController,
+              ),
+              height(12),
+
+              height(24),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final userData = await DbUser.login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+
+                    if (userData != null) {
+                      print('data ada ${userData.toJson()}');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Login successful")),
+                      );
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        (route) => false,
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Email atau password salah")),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.cream2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.hitam1,
+                    ),
+                  ),
+                ),
+              ),
+              height(48),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(fontSize: 12, color: AppColor.cream2),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -65,310 +145,73 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Row buildSyarat() {
-    return Row(
-      children: [
-        Checkbox(
-          value: _isChecked,
-          onChanged: (value) {
-            setState(() {
-              _isChecked = value ?? false;
-            });
-          },
+  Container buildBackground() {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/banner6.jpg"),
+          fit: BoxFit.cover,
         ),
-        Text(
-          "Saya menyetujui semua persyaratan yang berlaku",
-          style: TextStyle(fontSize: 12),
-        ),
-      ],
+      ),
     );
   }
 
-  SizedBox buildButtonlogin() {
-    return SizedBox(
-      height: 56,
-      width: 327,
-      child: ElevatedButton(
-        onPressed:
-            _isChecked
-                ? () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    HomeScreen.id,
-                    (route) => false,
-                  );
-                }
+  Widget buildTextField({
+    String? hintText,
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
+    return TextFormField(
+      controller: controller,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
+      style: TextStyle(color: AppColor.cream2, fontWeight: FontWeight.normal),
+      obscureText: isPassword ? isVisibility : false,
+      decoration: InputDecoration(
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
+        ),
+        suffixIcon:
+            isPassword
+                ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isVisibility = !isVisibility;
+                    });
+                  },
+                  icon: Icon(
+                    isVisibility ? Icons.visibility_off : Icons.visibility,
+                    color: AppColor.cream2,
+                  ),
+                )
                 : null,
-
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xff283FB1),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-        ),
-
-        child: Text(
-          "Login",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
       ),
     );
   }
 
-  Row buildJoinus() {
+  SizedBox height(double height) => SizedBox(height: height);
+  SizedBox width(double width) => SizedBox(width: width);
+
+  Widget buildTitle(String text) {
     return Row(
       children: [
-        Text(
-          "Don't have an account?",
-          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        ),
-        TextButton(
-          onPressed: _isChecked ? () {} : null,
-
-          child: Text(
-            "Join Us",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: Color(0xffEA9459),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row buildGoogleandfacebook() {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: 48,
-            width: 155,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xffFAFAFA),
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/iconGoogle (1).png",
-                    width: 24,
-                    height: 24,
-                  ),
-                  SizedBox(width: 8),
-
-                  Text("Google", style: TextStyle(color: Colors.black)),
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: 16),
-        Expanded(
-          child: SizedBox(
-            height: 48,
-            width: 155,
-            child: ElevatedButton(
-              onPressed: () {},
-
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xffFAFAFA),
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/btnSigninwithFb (1).png",
-                    width: 24,
-                    height: 24,
-                  ),
-                  SizedBox(width: 8),
-
-                  Text("Facebook", style: TextStyle(color: Colors.black)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row buildOrsignwith() {
-    return Row(
-      children: [
-        Expanded(
-          child: Divider(color: Color(0xffF2F2F2), thickness: 4, endIndent: 14),
-        ),
-        Text(
-          "Or Sign In With",
-          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
-        ),
-        Expanded(
-          child: Divider(color: Color(0xffF2F2F2), thickness: 4, indent: 14),
-        ),
-      ],
-    );
-  }
-
-  Row buildSignup() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text.rich(
-          TextSpan(
-            text: "Don't have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-          ),
-        ),
-
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            "Sign Up",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: Color(0xffEA9459),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Align buildForgotpassword() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          "Forgot Password?",
-          style: TextStyle(
-            color: Color(0xffEA9459),
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-        ),
-      ),
-    );
-  }
-
-  TextField buildFieldpassword() {
-    return TextField(
-      onChanged: (value) {
-        print(value);
-        setState(() {});
-      },
-      onSubmitted: (value) {
-        print(value);
-      },
-      obscureText: true,
-      obscuringCharacter: "•",
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        suffixIcon: Icon(Icons.visibility_off, color: Color(0xff888888)),
-      ),
-    );
-  }
-
-  Text buildPassword() {
-    return Text.rich(
-      TextSpan(
-        text: "Password",
-        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-      ),
-    );
-  }
-
-  TextField buildFieldemail() {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-      ),
-    );
-  }
-
-  Column buildEmail() {
-    return Column(
-      children: [
-        Text.rich(
-          TextSpan(
-            text: "Email Address",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column buildSignin() {
-    return Column(
-      children: [
-        Text.rich(
-          TextSpan(
-            text: "Sign In your account",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row buildWelcome() {
-    return Row(
-      children: [
-        Text(
-          "Welcome Back",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Column buildLogin() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(height: 30),
-            SizedBox(
-              height: 28,
-              width: 135,
-              child: Row(
-                children: [
-                  InkWell(
-                    splashColor: Colors.black12,
-                    onTap: () {},
-
-                    child: Icon(
-                      Icons.navigate_before_sharp,
-                      color: Color(0xff262626),
-                      size: 24,
-                    ),
-                  ),
-                  SizedBox(width: 24),
-                  Text(
-                    "Login",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        Text(text, style: TextStyle(fontSize: 12, color: AppColor.cream2)),
       ],
     );
   }

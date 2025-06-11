@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:workout_tracker/constant/app_color.dart';
+import 'package:workout_tracker/simpan_latihan.dart';
 
 class HighkneeScreen extends StatefulWidget {
   const HighkneeScreen({super.key});
@@ -16,107 +16,119 @@ class _HighkneeScreenState extends State<HighkneeScreen> {
       child: Scaffold(
         backgroundColor: AppColor.hitam1,
         appBar: AppBar(
-          title: Text("PUSH UP"),
+          title: Text("HIGH KNEE SQUAT"),
           backgroundColor: AppColor.cream1,
         ),
-        body: Column(
-          children: [
-            Image.asset('assets/images/highkneesquat.jpg'),
-            Divider(color: AppColor.cream1, thickness: 8),
-            Container(
-              color: AppColor.cream1,
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  "Petunjuk Latihan",
-                  style: TextStyle(
-                    color: AppColor.cream2,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset('assets/images/highkneesquat.jpg'),
+              Divider(color: AppColor.cream1, thickness: 8),
+              Container(
+                color: AppColor.cream1,
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    "Petunjuk Latihan",
+                    style: TextStyle(
+                      color: AppColor.cream2,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Divider(color: AppColor.cream1, thickness: 8),
-            SizedBox(height: 20),
-            Container(
-              // height: 200,
-              width: double.infinity,
-              color: AppColor.cream1,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Posisi awal  :",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+              Divider(color: AppColor.cream1, thickness: 8),
+              SizedBox(height: 20),
+              Container(
+                // height: 200,
+                width: double.infinity,
+                color: AppColor.cream1,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Posisi awal  :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      "Letakkan tangan di lantai, selebar bahu turunkan hingga dada hampir menyentuh lantai, lalu turunkan badan kearah bawah",
-                    ),
-                    Text("( SEPERTI CONTOH 1 )"),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-
-            Container(
-              // height: 200,
-              width: double.infinity,
-              color: AppColor.cream1,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Langkah Kedua  :",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                      SizedBox(height: 12),
+                      Text(
+                        "Berdiri tegak, kaki selebar pinggul. Turunkan badan kebawah",
                       ),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      "Dorong tubuh kembali ke posisi awal dengan menekan telapak tangan ke lantai.",
-                    ),
-                    Text("( SEPERTI CONTOH 2 )"),
-                  ],
+                      Text("( SEPERTI CONTOH 1 )"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
+              SizedBox(height: 20),
 
-            Container(
-              // height: 200,
-              width: double.infinity,
-              color: AppColor.cream1,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("Ulangi hingga 10x "),
-                    Text("Jika Sudah berhasil di lakukan simpan latihan"),
-                  ],
+              Container(
+                // height: 200,
+                width: double.infinity,
+                color: AppColor.cream1,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Langkah Kedua  :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        "Saat berdiri kembali, angkat satu lutut tinggi ke arah dada. Kembali ke posisi squat dan ulangi dengan lutut lainnya.",
+                      ),
+                      Text("( SEPERTI CONTOH 2 )"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 24),
+              SizedBox(height: 20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(onPressed: () {}, child: Text("Simpan Latihan")),
-              ],
-            ),
-          ],
+              Container(
+                // height: 200,
+                width: double.infinity,
+                color: AppColor.cream1,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Ulangi minimal 10x "),
+                      Text("Jika Sudah berhasil di lakukan simpan latihan"),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 24),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SimpanLatihan(),
+                        ),
+                      );
+                    },
+                    child: Text("Simpan Latihan"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
