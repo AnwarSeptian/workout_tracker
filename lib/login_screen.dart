@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/constant/app_color.dart';
 import 'package:workout_tracker/database/db_user.dart';
+import 'package:workout_tracker/database/preference.dart';
 import 'package:workout_tracker/home_screen.dart';
 import 'package:workout_tracker/register_screen.dart';
 
@@ -12,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isVisibility = false;
+  bool isVisibility = true;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -77,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
 
                     if (userData != null) {
+                      // await PreferenceHandler.saveLogin(userData.email);
+
                       print('data ada ${userData.toJson()}');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Login successful")),

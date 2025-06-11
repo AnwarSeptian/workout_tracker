@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/constant/app_color.dart';
+import 'package:workout_tracker/database/db_latihan.dart';
 import 'package:workout_tracker/login_screen.dart';
-import 'package:workout_tracker/screen/detail_highknee.dart';
-import 'package:workout_tracker/screen/detail_jumpsquad.dart';
-import 'package:workout_tracker/screen/detail_legraises.dart';
-import 'package:workout_tracker/screen/detail_plank.dart';
-import 'package:workout_tracker/screen/detail_pushup.dart';
-import 'package:workout_tracker/screen/detail_situp.dart';
+import 'package:workout_tracker/model/latihan_model.dart';
+import 'package:workout_tracker/screen/update_screen.dart';
 
-class TugasDuaFlutter extends StatelessWidget {
+class TugasDuaFlutter extends StatefulWidget {
   const TugasDuaFlutter({super.key});
+
+  @override
+  State<TugasDuaFlutter> createState() => _TugasDuaFlutterState();
+}
+
+class _TugasDuaFlutterState extends State<TugasDuaFlutter> {
+  List<LatihanModel> historyLatihan = [];
+
+  @override
+  void initState() {
+    super.initState();
+    muatData();
+  }
+
+  Future<void> muatData() async {
+    final data = await DbLatihan.getLatihanModel();
+
+    print("📋 Jumlah data yang dimuat: ${data.length}");
+    for (var item in data) {
+      print("🔹 ${item.toMap()}");
+    }
+    setState(() {
+      historyLatihan = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,330 +95,92 @@ class TugasDuaFlutter extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              margin: EdgeInsets.symmetric(horizontal: 28, vertical: 12),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColor.cream2,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(Icons.email, color: AppColor.hitam2, size: 25),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            "enzofernandes8@gmail.com",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.hitam2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFd9d9d9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.security_outlined,
-                          size: 25,
-                          color: Color(0xFF20203a),
-                        ),
-                        Spacer(),
-                        Text(
-                          "kingofeurope",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              margin: EdgeInsets.symmetric(horizontal: 28, vertical: 12),
-              child: Column(
-                children: [
-                  Text(
-                    "Hasil Latihan",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  Divider(),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DetailPushup()),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
+              margin: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: historyLatihan.length,
+                itemBuilder: (context, index) {
+                  final latihan = historyLatihan[index];
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "PUSH UP  ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                          Row(
+                            children: [
+                              CircleAvatar(child: Text("${index + 1}")),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      latihan.namalatihan,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(latihan.tanggal),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "Durasi: ${latihan.durasi} mnt",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  Text(
+                                    "${latihan.total} set",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => UpdateScreen(
+                                            latihanModel: LatihanModel(
+                                              id: latihan.id,
+                                              durasi: latihan.durasi,
+                                              total: latihan.total,
+                                              tanggal: latihan.tanggal,
+                                              namalatihan: latihan.namalatihan,
+                                            ),
+                                          ),
+                                    ),
+                                  ).then((value) => muatData());
+                                },
+                                child: Text("Edit"),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await DbLatihan.deleteData(latihan.id!);
+                                  setState(() {
+                                    muatData();
+                                  });
+                                },
+                                child: Text("Hapus"),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 4),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DetailSitup()),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            "SIT UP  ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DetailPlank()),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            "PLANK  ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailLegraises(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            "LEG RAISES  ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailJumpsquad(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            "JUMP SQUAD   ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailHighknee(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.cream2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            "HIGH KNEE  ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            " TOTAL : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],

@@ -3,14 +3,14 @@ import 'package:workout_tracker/constant/app_color.dart';
 import 'package:workout_tracker/database/db_latihan.dart';
 import 'package:workout_tracker/model/latihan_model.dart';
 
-class SimpanLatihan extends StatefulWidget {
-  const SimpanLatihan({super.key});
-
+class UpdateScreen extends StatefulWidget {
+  const UpdateScreen({super.key, required this.latihanModel});
+  final LatihanModel latihanModel;
   @override
-  State<SimpanLatihan> createState() => _SimpanLatihanState();
+  State<UpdateScreen> createState() => _UpdateScreenState();
 }
 
-class _SimpanLatihanState extends State<SimpanLatihan> {
+class _UpdateScreenState extends State<UpdateScreen> {
   final List<String> _jenislatihan = [
     'PUSH UP',
     'SIT UP',
@@ -20,50 +20,40 @@ class _SimpanLatihanState extends State<SimpanLatihan> {
     'HIGH KNEE SQUAD',
   ];
 
-  String? selected;
   final _formkey = GlobalKey<FormState>();
-  final TextEditingController durasilatihanController = TextEditingController();
-  final TextEditingController totalLatihanController = TextEditingController();
-  final TextEditingController tanggalController = TextEditingController();
+  late TextEditingController durasilatihanController = TextEditingController();
+  late TextEditingController totalLatihanController = TextEditingController();
+  late TextEditingController tanggalController = TextEditingController();
+  String? selected;
 
   List<LatihanModel> historyLatihan = [];
 
   @override
   void initState() {
+    selected = widget.latihanModel.namalatihan;
+    durasilatihanController = TextEditingController(
+      text: widget.latihanModel.durasi.toString(),
+    );
+    totalLatihanController = TextEditingController(
+      text: widget.latihanModel.total.toString(),
+    );
+    tanggalController = TextEditingController(
+      text: widget.latihanModel.tanggal,
+    );
     super.initState();
-    muatData();
   }
 
-  Future<void> muatData() async {
-    final data = await DbLatihan.getLatihanModel();
-    setState(() {
-      historyLatihan = data;
-    });
-  }
-
-  Future<void> simpanData() async {
-    if (_formkey.currentState!.validate()) {
-      final namalatihan = selected;
-      final tanggal = tanggalController.text;
-      final durasi = int.tryParse(durasilatihanController.text) ?? 0;
-      final total = int.tryParse(totalLatihanController.text) ?? 0;
-
-      if (selected != null && tanggal.isNotEmpty && durasi > 0 && total > 0) {
-        await DbLatihan.insertLatihan(
-          LatihanModel(
-            namalatihan: selected!,
-            durasi: durasi,
-            total: total,
-            tanggal: tanggal,
-          ),
-        );
-        selected = null;
-        durasilatihanController.clear();
-        totalLatihanController.clear();
-        tanggalController.clear();
-        muatData();
-      }
-    }
+  void update() async {
+    final updated = LatihanModel(
+      id: widget.latihanModel.id,
+      namalatihan: selected ?? widget.latihanModel.namalatihan,
+      tanggal: widget.latihanModel.tanggal,
+      durasi: int.parse(durasilatihanController.text),
+      total: int.parse(totalLatihanController.text),
+    );
+    print(updated.toJson());
+    await DbLatihan.updateData(updated);
+    Navigator.pop(context);
   }
 
   @override
@@ -73,7 +63,7 @@ class _SimpanLatihanState extends State<SimpanLatihan> {
       appBar: AppBar(
         backgroundColor: AppColor.cream2,
         centerTitle: true,
-        title: Text("Simpan Latihan", style: TextStyle(color: AppColor.hitam2)),
+        title: Text("UPDATE LATIHAN", style: TextStyle(color: AppColor.hitam2)),
       ),
       body: Form(
         key: _formkey,
@@ -229,9 +219,7 @@ class _SimpanLatihanState extends State<SimpanLatihan> {
                     ),
                     SizedBox(height: 14),
                     ElevatedButton(
-                      onPressed: () {
-                        simpanData();
-                      },
+                      onPressed: update,
                       child: Text("Input Data"),
                     ),
                   ],

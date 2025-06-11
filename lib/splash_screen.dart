@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void changePage() {
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(seconds: 3), () async {
       Navigator.pushNamedAndRemoveUntil(
         context,
         LoginScreen.id,
@@ -33,11 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Image.asset("assets/images/banner2.jpg"),
-            Text("Work Out"),
-            Spacer(),
-            SafeArea(child: Text("V 1.0.0")),
+            Image.asset("assets/images/splashscreen2.jpg"),
+
+            SafeArea(
+              child: Text(
+                "Version 1.0.0",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
           ],
         ),
       ),

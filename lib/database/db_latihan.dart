@@ -9,7 +9,7 @@ class DbLatihan {
       join(dbPath, 'latihan.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE latihan (id INTEGER PRIMARY KEY AUTOINCREMENT,jenis TEXT,jumlah INTEGER, durasi INTEGER)',
+          'CREATE TABLE latihan (id INTEGER PRIMARY KEY AUTOINCREMENT,namalatihan TEXT,tanggal TEXT,total INTEGER, durasi INTEGER)',
         );
       },
       version: 1,
@@ -23,11 +23,13 @@ class DbLatihan {
       latihanmodel.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print('{$latihanmodel.toMap()}');
   }
 
   static Future<List<LatihanModel>> getLatihanModel() async {
     final db = await DbLatihan.dbLatihan();
     final List<Map<String, dynamic>> maps = await db.query('latihan');
+    print('data dari DB: $maps');
 
     return List.generate(maps.length, (i) => LatihanModel.fromMap(maps[i]));
   }
