@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
 
                     if (userData != null) {
-                      // await PreferenceHandler.saveLogin(userData.email);
+                      PreferenceHandler.saveLogin(true);
 
                       print('data ada ${userData.toJson()}');
                       ScaffoldMessenger.of(context).showSnackBar(

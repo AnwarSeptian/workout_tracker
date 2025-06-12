@@ -24,10 +24,6 @@ class _TugasDuaFlutterState extends State<TugasDuaFlutter> {
   Future<void> muatData() async {
     final data = await DbLatihan.getLatihanModel();
 
-    print("📋 Jumlah data yang dimuat: ${data.length}");
-    for (var item in data) {
-      print("🔹 ${item.toMap()}");
-    }
     setState(() {
       historyLatihan = data;
     });

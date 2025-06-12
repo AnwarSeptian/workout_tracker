@@ -47,7 +47,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final updated = LatihanModel(
       id: widget.latihanModel.id,
       namalatihan: selected ?? widget.latihanModel.namalatihan,
-      tanggal: widget.latihanModel.tanggal,
+      tanggal: tanggalController.text,
       durasi: int.parse(durasilatihanController.text),
       total: int.parse(totalLatihanController.text),
     );
