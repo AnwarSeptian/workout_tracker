@@ -45,9 +45,10 @@ class _TugasDuaFlutterState extends State<TugasDuaFlutter> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
+                (route) => false,
               );
             },
             child: Column(

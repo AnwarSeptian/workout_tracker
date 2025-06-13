@@ -26,7 +26,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Stack(children: [buildBackground(), buildLayer()]),
+        child: Stack(
+          children: [
+            buildBackground(),
+            Container(color: Colors.black38),
+            buildLayer(),
+          ],
+        ),
       ),
     );
   }
@@ -52,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height(12),
                 Text(
                   "Register your account",
-                  style: TextStyle(fontSize: 14, color: Colors.blueGrey),
+                  style: TextStyle(fontSize: 14, color: AppColor.cream2),
                 ),
                 height(24),
                 buildTitle("Email Address"),
@@ -128,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Text(
                       "Have an account?",
-                      style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                      style: TextStyle(fontSize: 12, color: AppColor.cream2),
                     ),
                     TextButton(
                       onPressed: () {
@@ -180,9 +186,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
         return null;
       },
-      style: TextStyle(color: AppColor.cream2, fontWeight: FontWeight.normal),
+
+      style: TextStyle(color: AppColor.hitam1, fontWeight: FontWeight.normal),
       obscureText: isPassword ? isVisibility : false,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColor.cream2,
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(32),

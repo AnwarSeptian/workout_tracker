@@ -1,28 +1,39 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/constant/app_color.dart';
-import 'package:workout_tracker/simpan_latihan.dart';
+import 'package:workout_tracker/screen/simpan_latihan.dart';
 
-class HighkneeScreen extends StatefulWidget {
-  const HighkneeScreen({super.key});
+class HalamanDetail extends StatefulWidget {
+  final String? jenis;
+  final String? deskripsi;
+  final String? deskripsi2;
+  final String? image;
+  const HalamanDetail({
+    super.key,
+    required this.jenis,
+    required this.deskripsi,
+    required this.deskripsi2,
+    required this.image,
+  });
 
   @override
-  State<HighkneeScreen> createState() => _HighkneeScreenState();
+  State<HalamanDetail> createState() => _HalamanDetailState();
 }
 
-class _HighkneeScreenState extends State<HighkneeScreen> {
+class _HalamanDetailState extends State<HalamanDetail> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.hitam1,
         appBar: AppBar(
-          title: Text("HIGH KNEE SQUAT"),
+          title: Text(widget.jenis ?? ""),
           backgroundColor: AppColor.cream1,
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset('assets/images/highkneesquat.jpg'),
+              Image.asset(widget.image ?? ""),
               Divider(color: AppColor.cream1, thickness: 8),
               Container(
                 color: AppColor.cream1,
@@ -57,10 +68,7 @@ class _HighkneeScreenState extends State<HighkneeScreen> {
                         ),
                       ),
                       SizedBox(height: 12),
-                      Text(
-                        "Berdiri tegak, kaki selebar pinggul. Turunkan badan kebawah",
-                      ),
-                      Text("( SEPERTI CONTOH 1 )"),
+                      Text(widget.deskripsi ?? ""),
                     ],
                   ),
                 ),
@@ -84,10 +92,7 @@ class _HighkneeScreenState extends State<HighkneeScreen> {
                         ),
                       ),
                       SizedBox(height: 12),
-                      Text(
-                        "Saat berdiri kembali, angkat satu lutut tinggi ke arah dada. Kembali ke posisi squat dan ulangi dengan lutut lainnya.",
-                      ),
-                      Text("( SEPERTI CONTOH 2 )"),
+                      Text(widget.deskripsi2!),
                     ],
                   ),
                 ),

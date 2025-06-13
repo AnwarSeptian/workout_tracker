@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/constant/app_color.dart';
 import 'package:workout_tracker/database/db_user.dart';
-import 'package:workout_tracker/database/preference.dart';
 import 'package:workout_tracker/home_screen.dart';
 import 'package:workout_tracker/register_screen.dart';
 
@@ -22,7 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Form(
         key: _formKey,
-        child: Stack(children: [buildBackground(), buildLayer()]),
+        child: Stack(
+          children: [
+            buildBackground(),
+            Container(color: Colors.black26),
+            buildLayer(),
+          ],
+        ),
       ),
     );
   }
@@ -78,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
 
                     if (userData != null) {
-                      PreferenceHandler.saveLogin(true);
+                      // PreferenceHandler.saveLogin(true);
 
                       print('data ada ${userData.toJson()}');
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -174,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         return null;
       },
-      style: TextStyle(color: AppColor.cream2, fontWeight: FontWeight.normal),
+      style: TextStyle(color: AppColor.hitam1, fontWeight: FontWeight.normal),
       obscureText: isPassword ? isVisibility : false,
       decoration: InputDecoration(
         hintText: hintText,
@@ -190,6 +195,8 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(32),
           borderSide: BorderSide(color: Colors.black, width: 1.0),
         ),
+        filled: true,
+        fillColor: AppColor.cream2,
         suffixIcon:
             isPassword
                 ? IconButton(
@@ -214,7 +221,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget buildTitle(String text) {
     return Row(
       children: [
-        Text(text, style: TextStyle(fontSize: 12, color: AppColor.cream2)),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color: AppColor.cream2,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
       ],
     );
   }

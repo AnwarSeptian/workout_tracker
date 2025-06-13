@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/constant/app_color.dart';
-import 'package:workout_tracker/screen/highknee_screen.dart';
-import 'package:workout_tracker/screen/jumpsquad_screen.dart';
-import 'package:workout_tracker/screen/legraises_screen.dart';
-import 'package:workout_tracker/screen/plank_screen.dart';
+import 'package:workout_tracker/screen/halaman_detail.dart';
 import 'package:workout_tracker/screen/profile.dart';
-import 'package:workout_tracker/screen/pushup_screen.dart';
-import 'package:workout_tracker/screen/situp_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +12,63 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Map<String, dynamic>> daftarLatihan = [
+    {
+      'title': "PUSH UP",
+      'image': "assets/images/profiletraining.jpg",
+      'image2': 'assets/images/pushup1.jpg',
+      'deskripsi':
+          "Letakkan tangan di lantai, selebar bahu turunkan hingga dada hampir menyentuh lantai, lalu turunkan badan kearah bawah",
+      'deskripsi2':
+          "Dorong tubuh kembali ke posisi awal dengan menekan telapak tangan ke lantai.",
+    },
+    {
+      'title': "SIT UP",
+      'image': "assets/images/profiletraining2.jpg",
+      'image2': 'assets/images/situp1.jpg',
+      'deskripsi':
+          "Berbaring telentang di lantai dengan lutut ditekuk dan telapak kaki rata di lantai. Letakkan di belakang kepala (jangan tarik leher).",
+      'deskripsi2':
+          "Angkat tubuh bagian atas menuju lutut dengan mengontraksi otot perut. Turunkan kembali secara perlahan ke posisi awal.",
+    },
+    {
+      'title': "PLANK",
+      'image': "assets/images/profiletraining3.jpg",
+      'image2': 'assets/images/plank1.jpg',
+      'deskripsi':
+          "Posisikan tubuh seperti push-up, tapi dengan siku menempel di lantai sejajar bahu.",
+      'deskripsi2':
+          "Jaga tubuh tetap lurus dari kepala hingga tumit. Tahan posisi ini selama 20–60 detik. ",
+    },
+    {
+      'title': "LEG RAISES",
+      'image': "assets/images/profiletraining4.jpg",
+      'image2': 'assets/images/legraises.jpg',
+      'deskripsi':
+          "Berbaring telentang dengan kaki lurus dan tangan di samping tubuh.",
+      'deskripsi2':
+          "Angkat kedua kaki lurus ke atas hingga membentuk sudut 90°. Turunkan perlahan tanpa menyentuh lantai, lalu ulangi.",
+    },
+    {
+      'title': "JUMP SQUAD",
+      'image': "assets/images/profiletraining6.jpg",
+      'image2': 'assets/images/jumpsquat.jpg',
+      'deskripsi':
+          "Berdiri tegak, kaki selebar bahu. Lakukan squat biasa hingga paha sejajar lantai.",
+      'deskripsi2':
+          "Lompat ke atas sekuat mungkin, lalu mendarat dengan lutut sedikit menekuk. Langsung masuk ke squat lagi dan ulangi.",
+    },
+    {
+      'title': "HIGH KNEE SQUAD",
+      'image': "assets/images/images.jpg",
+      'image2': 'assets/images/highkneesquat.jpg',
+      'deskripsi':
+          "Berdiri tegak, kaki selebar pinggul. Turunkan badan kebawah",
+      'deskripsi2':
+          "Saat berdiri kembali, angkat satu lutut tinggi ke arah dada. Kembali ke posisi squat dan ulangi dengan lutut lainnya.",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,241 +149,69 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 12),
 
-            GridView.count(
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 4,
+            GridView.builder(
+              // padding: EdgeInsets.all(8),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PushupScreen()),
-                    );
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Image.asset(
-                        "assets/images/profiletraining.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Container(
-                        height: 32,
-                        width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "PUSH UP",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.hitam2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SitupScreen()),
-                    );
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
+              itemCount: daftarLatihan.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 4,
+                // childAspectRatio: 1,
+              ),
 
-                    children: [
-                      Image.asset(
-                        "assets/images/profiletraining2.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Container(
-                        height: 32,
-                        width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "SIT UP",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: AppColor.hitam2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PlankScreen()),
-                    );
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Image.asset(
-                        "assets/images/profiletraining3.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Container(
-                        height: 32,
-                        width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "PLANK",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.hitam2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
+              itemBuilder: (BuildContext context, int index) {
+                final latihan = daftarLatihan[index];
+                return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LegraisesScreen(),
+                        builder:
+                            (context) => HalamanDetail(
+                              jenis: latihan['title'],
+                              image: latihan['image2'],
+                              deskripsi: latihan['deskripsi'],
+                              deskripsi2: latihan['deskripsi2'],
+                            ),
                       ),
                     );
                   },
                   child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Image.asset(
-                        "assets/images/profiletraining4.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Image.asset(
+                          latihan['image'],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
                       ),
                       Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          color: AppColor.cream1,
+                        ),
                         height: 32,
                         width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "LEG RAISES",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.hitam2,
-                              ),
+                        child: Center(
+                          child: Text(
+                            latihan['title'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.hitam2,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => JumpsquadScreen(),
-                      ),
-                    );
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Image.asset(
-                        "assets/images/profiletraining6.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Container(
-                        height: 32,
-                        width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "JUMP SQUAD",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.hitam2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HighkneeScreen()),
-                    );
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Image.asset(
-                        "assets/images/images.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Container(
-                        height: 32,
-                        width: double.infinity,
-                        color: AppColor.cream1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "HIGH KNEE SQUAD",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.hitam2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),
